@@ -12,7 +12,7 @@ export default function PostItem(props) {
   });
 
   const imagePath = `/images/posts/${slug}/${image}`;
-  const linkPath = `/posts/${slug}`;
+  const linkPath = `/blogposts/${slug}`;
 
   return (
     <li className={classes.post}>
