@@ -1,37 +1,21 @@
 import { Fragment } from "react";
 import AllPosts from "../../components/posts/all-posts";
+import { getAllPosts } from "../../lib/posts-util";
 
-const DUMMY_POSTS = [
-  {
-    slug: "getting-started-with-nextjs",
-    title: "Getting started with next JS",
-    excerpt:
-      "Next Js is React framework for prodaction. It makes fullstack React apps easier and better",
-    image: "getting-started-nextjs.png",
-    date: 2023 - 12 - 12,
-  },
-  {
-    slug: "getting-started-with-nextjs",
-    title: "Getting started with next JS",
-    excerpt:
-      "Next Js is React framework for prodaction. It makes fullstack React apps easier and better",
-    image: "getting-started-nextjs.png",
-    date: 2023 - 12 - 12,
-  },
-  {
-    slug: "getting-started-with-nextjs",
-    title: "Getting started with next JS",
-    excerpt:
-      "Next Js is React framework for prodaction. It makes fullstack React apps easier and better",
-    image: "getting-started-nextjs.png",
-    date: 2023 - 12 - 12,
-  },
-];
-
-export default function BlogPosts() {
+export default function BlogPosts({ posts }) {
   return (
     <Fragment>
-      <AllPosts posts={DUMMY_POSTS} />
+      <AllPosts posts={posts} />
     </Fragment>
   );
+}
+
+export function getStaticProps() {
+  const allPosts = getAllPosts();
+
+  return {
+    props: {
+      posts: allPosts,
+    },
+  };
 }
