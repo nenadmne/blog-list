@@ -9,12 +9,14 @@ export default function PostContent({ post }) {
   const customRenderer = {
     img(image) {
       return (
-        <Image
-          src={`/images/posts/${post.slug}/${image.src}`} // image.src contains full image path
-          alt={image.alt}
-          width={600}
-          height={300}
-        />
+        <div className={classes.image}>
+          <Image
+            src={`/images/posts/${post.slug}/${image.src}`} // image.src contains full image path
+            alt={image.alt}
+            width={600}
+            height={300}
+          />
+        </div>
       );
     },
   };
