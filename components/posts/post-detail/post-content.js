@@ -1,5 +1,6 @@
-import classes from "./post-content.module.css";
 import PostHeader from "./post-header";
+import ReactMarkdown from "react-markdown";
+import classes from "./post-content.module.css";
 
 export default function PostContent({ post }) {
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
@@ -7,7 +8,7 @@ export default function PostContent({ post }) {
   return (
     <article className={classes.content}>
       <PostHeader title={post.title} image={imagePath} />
-      Content
+      <ReactMarkdown>{post.content}</ReactMarkdown>
     </article>
   );
 }
