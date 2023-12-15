@@ -2,6 +2,8 @@ import Image from "next/image";
 import PostHeader from "./post-header";
 import ReactMarkdown from "react-markdown";
 import classes from "./post-content.module.css";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter";
 
 export default function PostContent({ post }) {
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
@@ -17,6 +19,16 @@ export default function PostContent({ post }) {
             height={300}
           />
         </div>
+      );
+    },
+    code(code) {
+      const _array = code.className.split("-");
+      const _language = _array[1];
+
+      return (
+        <SyntaxHighlighter language={_language} style={atomDark}>
+          {code.children[0]}
+        </SyntaxHighlighter>
       );
     },
   };
