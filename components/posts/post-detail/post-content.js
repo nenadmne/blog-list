@@ -27,7 +27,7 @@ export default function PostContent({ post }) {
 
       return (
         <SyntaxHighlighter language={_language} style={atomDark}>
-          {code.children[0]}
+          {code.children}
         </SyntaxHighlighter>
       );
     },
