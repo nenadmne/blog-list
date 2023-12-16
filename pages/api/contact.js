@@ -21,6 +21,6 @@ export default function Handler(req, res) {
     console.log(newMessage);
     res
       .status(200)
-      .json({ message: "Successfully stored message", newMessage });
+      .json({ message: "Successfully stored message", message: newMessage });
   }
 }
