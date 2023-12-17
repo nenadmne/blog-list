@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Notification from "../ui/notification";
 import classes from "./contact-form.module.css";
 
 export default function ContactForm() {
@@ -6,21 +7,64 @@ export default function ContactForm() {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredMessage, setEnteredMessage] = useState("");
 
-  const submitHandler = (event) => {
+  const [requestStatus, setRequestStatus] = useState();
+  const [requestError, setRequestError] = useState();
+
+  const submitHandler = async (event) => {
     event.preventDefault();
 
-    fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: enteredName,
-        email: enteredEmail,
-        message: enteredMessage,
-      }),
-    });
+    setRequestStatus("pending");
+    try {
+      const respone = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: enteredName,
+          email: enteredEmail,
+          message: enteredMessage,
+        }),
+      });
+      const data = await respone.json();
+
+      if (!respone.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+
+      setRequestStatus("success");
+    } catch (error) {
+      setRequestError(error);
+      setRequestStatus("error");
+    }
   };
+
+  let notification;
+
+  if (requestStatus === "pending") {
+    notification = {
+      status: "pending",
+      title: "Seding message...",
+      message: "Your message is on the way",
+    };
+  }
+
+  if (requestStatus === "success") {
+    notification = {
+      status: "success",
+      title: "Success!",
+      message: "Message sent successfully!",
+    };
+  }
+
+  if (requestStatus === "error") {
+    notification = {
+      status: "error",
+      title: "Error!",
+      message: requestError,
+    };
+  }
+
   return (
     <section className={classes.contact}>
       <h1> How can i help you? </h1>
@@ -60,6 +104,13 @@ export default function ContactForm() {
           <button> Send message </button>
         </div>
       </form>
+      {notification && (
+        <Notification
+          status={notification.status}
+          error={notification.error}
+          message={notification.message}
+        />
+      )}
     </section>
   );
 }
